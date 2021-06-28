@@ -238,7 +238,7 @@ class RegisterationScreen extends StatelessWidget {
 
       databaseReference.child(user.uid).set(userDataMap);
 
-      displayAlert("Congratulations, your account is created.");
+      displayAlert("Congratulations, account is created.");
 
       Navigator.pushNamedAndRemoveUntil(context, MainScreen.idScreen, (route) => false);
 
