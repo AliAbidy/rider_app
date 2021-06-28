@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "765503854149",
+    "project_id": "road-cartel",
+    "storage_bucket": "road-cartel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765503854149:android:efb7e9c5a64e391e83f52c",
+        "android_client_info": {
+          "package_name": "com.abidi.riderapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "765503854149-nldc8ism4nrumrmdlaf1atc4cd43am4j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCybo4YkRwpmGwrcvsvhSkP-GOTNbZvxTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765503854149-nldc8ism4nrumrmdlaf1atc4cd43am4j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
