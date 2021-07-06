@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rider_app/com/rider/allScreens/loginScreen.dart';
 import 'package:rider_app/com/rider/allScreens/mainScreen.dart';
 import 'package:rider_app/main.dart';
+import 'package:rider_app/widget/ProgressBar.dart';
 
 class RegisterationScreen extends StatelessWidget {
   // const RegisterationScreen({Key? key}) : super(key: key);
@@ -217,19 +218,24 @@ class RegisterationScreen extends StatelessWidget {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   void registerNewUser(BuildContext context) async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return ProgressBar("Registration In Progress, please wait.....");
+        }
+    );
     final User user = (
         await firebaseAuth.createUserWithEmailAndPassword(
           email: emailTextEditingController.text,
           password: passwordTextEditingController.text)
         .catchError((errMsg) {
+          Navigator.pop(context);
           displayAlert("Error: "+errMsg);
         })
     ).user!;
 
     if(user != null) {
-
-
-
       Map userDataMap = {
         "name": nameTextEditingController.text.trim(),
         "email": emailTextEditingController.text.trim(),
@@ -243,6 +249,7 @@ class RegisterationScreen extends StatelessWidget {
       Navigator.pushNamedAndRemoveUntil(context, MainScreen.idScreen, (route) => false);
 
     } else {
+      Navigator.pop(context);
       displayAlert("Error creating user.");
     }
   }

@@ -8,6 +8,7 @@ import 'package:rider_app/com/rider/allScreens/mainScreen.dart';
 import 'package:rider_app/com/rider/allScreens/registerationScreen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:rider_app/main.dart';
+import 'package:rider_app/widget/ProgressBar.dart';
 
 class LoginScreen extends StatelessWidget {
   // const LoginScreen({Key? key}) : super(key: key);
@@ -142,30 +143,38 @@ class LoginScreen extends StatelessWidget {
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   void authenticateUser(BuildContext context) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return ProgressBar("Authenticating, please wait.....");
+      }
+    );
     final User user = (
         await firebaseAuth.signInWithEmailAndPassword(
             email: emailTextEditingController.text,
-            password: passwordTextEditingController.text)
-            .catchError((errMsg) {
-          displayAlert("Error: "+errMsg);
-        })
-    ).user!;
+            password: passwordTextEditingController.text
+        ).catchError((errMsg) {
+          Navigator.pop(context);
+          displayAlert("Error: "+errMsg.toString());
+        })).user!;
 
     if(user != null) {
       databaseReference.child(user.uid).once().then((DataSnapshot snap) {
-        if(snap.value != null) {
-          Navigator.pushNamedAndRemoveUntil(context, MainScreen.idScreen, (route) => false);
+        if (snap.value != null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, MainScreen.idScreen, (route) => false);
           displayAlert("User successfully logged in.");
+        } else {
+          Navigator.pop(context);
+          firebaseAuth.signOut();
+          displayAlert("Error user signin.");
         }
       });
-
-
     } else {
-      firebaseAuth.signOut();
-      displayAlert("Error user signin.");
+      Navigator.pop(context);
+      displayAlert("Error occured, cannot continue....");
     }
-
-
   }
 
   void displayAlert(final String text) {
